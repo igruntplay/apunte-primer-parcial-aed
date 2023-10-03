@@ -1,0 +1,221 @@
+\documentclass[9pt]{extarticle}  % Usa extarticle para poder elegir 9pt.
+\usepackage[utf8]{inputenc}
+\usepackage[left=0.5in, right=0.5in, top=0.5in, bottom=0.8in]{geometry}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{Apunte para el primer parcial de AED hecho por Gaspi}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{cancel}
+\input{AEDmacros}
+
+% Reducir tamaño de fuente para tablas
+\newcommand{\smalltable}{\fontsize{8pt}{10pt}\selectfont}
+\renewcommand{\arraystretch}{0.8}  % Reduce el espacio vertical en las tablas.
+
+
+\begin{document}
+
+\section*{\tiny{Tipos complejos}}
+\subsection*{\tiny{seq$<T>$: secuencia de tipo T}}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \langle \rangle \), \( \langle x, y, z \rangle \) \\
+\hline
+tamaño & \( |s| \), \text{length}(s) \\
+\hline
+pertenece & \( i \in s \) \\
+\hline
+ver posición & \( s[i] \) \\
+\hline
+cabeza & \text{head}(s) \\
+\hline
+cola & \text{tail}(s) \\
+\hline
+concatenar & \text{concat}(s1, s2), \( s1 + s2 \) \\
+\hline
+subsecuencia & \text{subseq}(s, i, j), \( s[i..j] \) \\
+\hline
+setear posición & \text{setAt}(s, i, \text{val}) \\
+\hline
+\end{tabularx}
+
+\subsection*{\tiny{conj$<T>$: conjunto de tipo T}}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \{\} \), \( \{x, y, z\} \) \\
+\hline
+tamaño & \( |c| \), \text{length}(c) \\
+\hline
+pertenece & \( i \in c \) \\
+\hline
+unión & \( c1 \cup c2 \) \\
+\hline
+intersección & \( c1 \cap c2 \) \\
+\hline
+diferencia & \( c1 - c2 \) \\
+\hline
+\end{tabularx}
+
+\subsection*{\tiny{dict$<$K, V$>$: diccionario que asocia claves de tipo K con valores de tipo V}}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \{\} \), \( \{\text{``juan''} : 20, \text{``diego''} : 10\} \) \\
+\hline
+tamaño & \( |d| \), \text{length}(d) \\
+\hline
+pertenece (hay clave) & \( k \in d \) \\
+\hline
+valor & d[k] \\
+\hline
+setear valor & \text{setKey}(d, k, v) \\
+\hline
+eliminar valor & \text{delKey}(d, k) \\
+\hline
+\end{tabularx}
+
+\subsection*{\tiny{tupla$<$T1, ..., Tn$>$: tupla de tipos T1, ..., Tn}}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \langle x, y, z \rangle \) \\
+\hline
+campo & \( s[i] \) \\
+\hline
+\end{tabularx}
+
+\subsection*{\tiny{struct$<$campo1: T1, ..., campon: Tn$>$: tupla con nombres para los campos.}}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \langle x : 20, y : 10 \rangle \) \\
+\hline
+campo & \( s_x, s_y \) \\
+\hline
+\end{tabularx}
+\subsection*{\tiny{Precondición más débil (wp)}}
+\noindent\smalltable
+La \textit{precondición más débil} es la condición mínima necesaria antes de ejecutar una sentencia para garantizar que una postcondición dada se cumpla.
+\subsection*{\tiny{Lógica de Hoare}}
+\noindent\smalltable
+Una forma de razonar sobre la corrección de programas es a través de las triples de Hoare \(\{P\} C \{Q\}\). El objetivo es obtener una fórmula lógica \( \alpha \) tal que \( \alpha \) es verdadera si y solo si \(\{P\} C \{Q\}\) es verdadero.
+
+\paragraph*{Predicado def(E):}
+Definición. Dada una expresión \( E \), llamamos \( \text{def}(E) \) a las condiciones necesarias para que \( E \) esté definida.
+
+\paragraph*{Predicado \( Q_{E}^x \):}
+Definición. Dado un predicado \( Q \), el predicado \( Q_{E}^x \) se obtiene reemplazando...
+
+\paragraph*{Axiomas WP}
+\begin{itemize}
+    \item \textbf{Axioma 1.} \( \text{wp}(x := E, Q) \equiv \text{def}(E) \land Q_{E}^x \)
+    \item \textbf{Axioma 2.} \( \text{wp}(\text{skip}, Q) \equiv Q \).
+    \item \textbf{Axioma 3.} \( \text{wp}(S1; S2, Q) \equiv \text{wp}(S1,\text{wp}(S2, Q)) \).
+    \item \textbf{Axioma 4.} Si \(S = \text{if } B \text{ then } S1 \text{ else } S2 \text{ endif}\), entonces
+    \[
+    \text{wp}(S, Q) \equiv \text{def}(B) \yLuego \left( (B \land \text{wp}(S1, Q)) \vee (\neg B \land \text{wp}(S2, Q)) \right)
+    \]
+     \item \textbf{Axioma 5.} \( \text{wp}(\text{while } B \text{ do } S \text{ endwhile}, Q) \equiv (\exists_{i \geq 0})({ H_i}(Q)) \)  no podemos usar mecanicamente el Axioma 5
+para demostrar la corrección de un ciclo con una cantidad no
+acotada a priori de iteraciones
+\end{itemize}
+
+
+\vspace{-0.5cm}
+\paragraph*{Propiedades:}
+\begin{itemize}
+    \item Monotonía: Si \( Q \) implica \( R \), entonces \( \text{wp}(S, Q) \) implica \( \text{wp}(S, R) \).
+    \item Distributividad: \( \text{wp}(S, Q \land R) \) equivale a \( \text{wp}(S, Q) \land \text{wp}(S, R) \).
+    \item Excluded Miracle: \( \text{wp}(S, \text{false}) \) equivale a \( \text{false} \).
+    \vspace{-0.5cm}
+    \vspace{-0.5cm}
+\vspace{-0.5cm}
+\end{itemize}
+\vspace{-0.5cm}
+
+\vspace{-0.5cm}
+\subsection*{\tiny{Invariante de un ciclo}}
+\noindent\smalltable
+\textbf{Definición.} Un predicado \( I \) es un invariante de un ciclo si:
+\begin{enumerate}
+    \item \( I \) vale antes de comenzar el ciclo, y
+    \item Si vale \( I \land B \) al comenzar una iteración arbitraria, entonces sigue valiendo \( I \) al finalizar la ejecución del cuerpo del ciclo.
+\end{enumerate}
+
+Un invariante describe un estado que se satisface cada vez que comienza la ejecución del cuerpo de un ciclo y también se cumple cuando la ejecución del cuerpo del ciclo concluye.
+
+\textbf{Teorema del Invariante.} Si existe un predicado \( I \) tal que:
+\begin{enumerate}
+    \item \( P_C \Rightarrow I \),
+    \item $ \{ I \wedge B \} S \{ I \} \iff (I \wedge B) \implies wp(S, I) $
+    \item \(I \land \neg B \Rightarrow Q_C\),
+\end{enumerate}
+entonces \( \{P_C\} \text{ while } B \text{ do } S \text{ endwhile } \{Q_C\} \) es válida.
+\subsection*{\tiny{Función variante}}
+\noindent\smalltable
+La función variante representa una cantidad que se va
+reduciendo
+\begin{itemize}
+    \item {Si existe una función variante \(f_v\) tal que:
+\begin{enumerate}\item $ \{ I \wedge B \wedge f_v = v_0 \} S \{ f_v < v_0 \} \iff (I \wedge B \wedge f_v = v_0) \implies wp(S, f_v < v_0) $
+
+    \item Si \(I \land f_v \leq 0\) implica \(\neg B\)
+\end{enumerate}}
+\end{itemize}
+\subsection*{\tiny{Correctitud de un Programa Completo}}
+\noindent\smalltable
+Para demostrar la correctitud de un programa completo utilizando la lógica de Hoare, seguimos estos pasos:
+
+\begin{enumerate}
+    \item \textbf{Código antes del ciclo:} Debemos demostrar que las precondiciones implican la precondición más débil del código previo al ciclo, es decir,
+    \[ Pre \Rightarrow \text{wp}(Código\_previo, P_c) \]
+    
+    \item \textbf{Correctitud del ciclo:} Utilizamos el teorema del invariante, ya que no podemos calcular la precondición más débil del ciclo en general. El teorema del invariante se expresa de la siguiente manera:
+    
+    \begin{enumerate}
+        \item \[ P_c \Rightarrow I \]
+        \item \[ (I \land B) \Rightarrow \text{wp}(Ciclo, I) \]
+        \item \[ (I \land \neg B) \Rightarrow Q_c \]
+    \end{enumerate}
+
+    \item \textbf{Código posterior al ciclo:} Comprobamos que las postcondiciones del ciclo implican la precondición más débil del código posterior al ciclo, es decir,
+    \[ Q_c \Rightarrow \text{wp}(Código\_posterior, Post) \]
+
+    \item \textbf{Conclusión:} Si probamos estas tres cosas, podemos concluir, por corolario de monotonía, que el programa completo es correcto con respecto a la especificación:
+    \[ Pre \Rightarrow \text{wp}(Programa\_completo, Post) \]
+\end{enumerate}
+\subsection*{\tiny{Especificación y Relaciones de Fuerza}}
+
+\noindent\textbf{Especificación:} \\
+La especificación define qué es lo que debe hacer un algoritmo, en términos de relación entre sus entradas y sus salidas, sin determinar cómo lo hace. Las relaciones de fuerza entre especificaciones son importantes para entender cuán restrictiva o general es una especificación con respecto a otra.
+
+\noindent\textbf{Subespecificación:} \\
+Implica otorgar una precondición más restrictiva o una postcondición más débil que lo deducido del enunciado del problema. Una precondición más restrictiva excluye casos de entrada posibles. Una postcondición más débil permite soluciones no deseadas.
+
+\noindent\textbf{Sobreespecificación:} \\
+Consiste en proporcionar una postcondición más restrictiva o una precondición más débil que lo necesario. Una precondición más débil obliga al algoritmo a considerar casos innecesarios. Una postcondición más restrictiva limita las posibles soluciones.
+
+\noindent\textbf{Relaciones de Fuerza:} \\
+Decimos que \(A\) es más fuerte que \(B\) cuando \(A \rightarrow B\) es una tautología. También podemos afirmar que \(A\) fuerza a \(B\) o que \(B\) es más débil que \(A\).
+
+\noindent\textbf{Ejemplos:}
+\begin{itemize}
+    \item \(p \land q\) es más fuerte que \(p\).
+    \item \(p \lor q\) no es más fuerte que \(p\).
+    \item \(p\) es más fuerte que \(p \rightarrow q\).
+    \item \(p\) no es más fuerte que \(q\).
+    \item \textbf{False} es la fórmula más fuerte de todas.
+    \item \textbf{True} es la fórmula más débil de todas.
+\end{itemize}
+
+
+
+\end{document}
+
+
