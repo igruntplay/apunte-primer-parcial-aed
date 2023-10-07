@@ -20,7 +20,9 @@
 \begin{document}
 
 \section*{\tiny{Tipos complejos}}
+    \vspace{-0.2cm}
 \subsection*{\tiny{seq$<T>$: secuencia de tipo T}}
+\vspace{-0.2cm}
 \noindent\smalltable
 \begin{tabularx}{\linewidth}{|X|X|}
 \hline
@@ -43,9 +45,11 @@ subsecuencia & \text{subseq}(s, i, j), \( s[i..j] \) \\
 setear posición & \text{setAt}(s, i, \text{val}) \\
 \hline
 \end{tabularx}
-
+\vspace{-0.5cm}
 \subsection*{\tiny{conj$<T>$: conjunto de tipo T}}
+\vspace{-0.2cm}
 \noindent\smalltable
+\vspace{-0.4cm}
 \begin{tabularx}{\linewidth}{|X|X|}
 \hline
 crear & \( \{\} \), \( \{x, y, z\} \) \\
@@ -61,9 +65,11 @@ intersección & \( c1 \cap c2 \) \\
 diferencia & \( c1 - c2 \) \\
 \hline
 \end{tabularx}
-
+\vspace{-0.1cm}
 \subsection*{\tiny{dict$<$K, V$>$: diccionario que asocia claves de tipo K con valores de tipo V}}
+\vspace{-0.2cm}
 \noindent\smalltable
+\vspace{-0.4cm}
 \begin{tabularx}{\linewidth}{|X|X|}
 \hline
 crear & \( \{\} \), \( \{\text{``juan''} : 20, \text{``diego''} : 10\} \) \\
@@ -79,8 +85,9 @@ setear valor & \text{setKey}(d, k, v) \\
 eliminar valor & \text{delKey}(d, k) \\
 \hline
 \end{tabularx}
-
+\vspace{-0.1cm}
 \subsection*{\tiny{tupla$<$T1, ..., Tn$>$: tupla de tipos T1, ..., Tn}}
+\vspace{-0.2cm}
 \noindent\smalltable
 \begin{tabularx}{\linewidth}{|X|X|}
 \hline
@@ -89,8 +96,9 @@ crear & \( \langle x, y, z \rangle \) \\
 campo & \( s[i] \) \\
 \hline
 \end{tabularx}
-
+\vspace{-0.5cm}
 \subsection*{\tiny{struct$<$campo1: T1, ..., campon: Tn$>$: tupla con nombres para los campos.}}
+\vspace{-0.2cm}
 \noindent\smalltable
 \begin{tabularx}{\linewidth}{|X|X|}
 \hline
@@ -99,57 +107,81 @@ crear & \( \langle x : 20, y : 10 \rangle \) \\
 campo & \( s_x, s_y \) \\
 \hline
 \end{tabularx}
+\vspace{-0.2cm}
 \subsection*{\tiny{Precondición más débil (wp)}}
+\vspace{-0.3cm}
 \noindent\smalltable
+\vspace{-0.2cm}
 La \textit{precondición más débil} es la condición mínima necesaria antes de ejecutar una sentencia para garantizar que una postcondición dada se cumpla.
 \subsection*{\tiny{Lógica de Hoare}}
+\vspace{-0.3cm}
 \noindent\smalltable
+\vspace{-0.1cm}
 Una forma de razonar sobre la corrección de programas es a través de las triples de Hoare \(\{P\} C \{Q\}\). El objetivo es obtener una fórmula lógica \( \alpha \) tal que \( \alpha \) es verdadera si y solo si \(\{P\} C \{Q\}\) es verdadero.
-
+\vspace{-0.5cm}
 \paragraph*{Predicado def(E):}
 Definición. Dada una expresión \( E \), llamamos \( \text{def}(E) \) a las condiciones necesarias para que \( E \) esté definida.
-
+\vspace{-0.45cm}
 \paragraph*{Predicado \( Q_{E}^x \):}
 Definición. Dado un predicado \( Q \), el predicado \( Q_{E}^x \) se obtiene reemplazando...
-
+\vspace{-0.4cm}
 \paragraph*{Axiomas WP}
-\begin{itemize}
-    \item \textbf{Axioma 1.} \( \text{wp}(x := E, Q) \equiv \text{def}(E) \land Q_{E}^x \)
+\begin{itemize}\vspace{-0.35cm}
+    \item \textbf{Axioma 1.} \( \text{wp}(x := E, Q) \equiv \text{def}(E) \land Q_{E}^x \)\vspace{-0.35cm}
     \item \textbf{Axioma 2.} \( \text{wp}(\text{skip}, Q) \equiv Q \).
-    \item \textbf{Axioma 3.} \( \text{wp}(S1; S2, Q) \equiv \text{wp}(S1,\text{wp}(S2, Q)) \).
+    \vspace{-0.33cm}
+    \item \textbf{Axioma 3.} \( \text{wp}(S1; S2, Q) \equiv \text{wp}(S1,\text{wp}(S2, Q)) \).\vspace{-0.33cm}
     \item \textbf{Axioma 4.} Si \(S = \text{if } B \text{ then } S1 \text{ else } S2 \text{ endif}\), entonces
+    \vspace{-0.31cm}
     \[
+    \vspace{-0.37cm}
     \text{wp}(S, Q) \equiv \text{def}(B) \yLuego \left( (B \land \text{wp}(S1, Q)) \vee (\neg B \land \text{wp}(S2, Q)) \right)
     \]
      \item \textbf{Axioma 5.} \( \text{wp}(\text{while } B \text{ do } S \text{ endwhile}, Q) \equiv (\exists_{i \geq 0})({ H_i}(Q)) \)  no podemos usar mecanicamente el Axioma 5
 para demostrar la corrección de un ciclo con una cantidad no
 acotada a priori de iteraciones
+\vspace{-0.34cm}
 \end{itemize}
+\subsection*{\tiny{Asignación a elementos de una secuencia}}
+\noindent\smalltable
+\vspace{-0.3cm}
+Aplicando el Axioma 1, obtenemos:
+\[ \text{wp}(b[i] := E, Q) \equiv \text{wp}(b := \text{setAt}(b, i, E), Q) \]
+\[ \equiv (\text{def}(b) \land \text{def}(i)) \land 0 \leq i < |b| \land \text{def}(E) \land Q_{\text{setAt}(b,i,E)}^b \]
 
+Dado que \( 0 \leq i, j < |b| \), se sabe que:
+\[ \text{setAt}(b, i, E)[j] = 
+\begin{cases} 
+\vspace{-0.2cm}
+E & \text{si } i = j \\
+b[j] & \text{si } i \neq j 
+\end{cases} 
+\]
 
+\vspace{-0.4cm}
 \vspace{-0.5cm}
 \paragraph*{Propiedades:}
 \begin{itemize}
+\vspace{-0.32cm}
     \item Monotonía: Si \( Q \) implica \( R \), entonces \( \text{wp}(S, Q) \) implica \( \text{wp}(S, R) \).
+    \vspace{-0.32cm}
     \item Distributividad: \( \text{wp}(S, Q \land R) \) equivale a \( \text{wp}(S, Q) \land \text{wp}(S, R) \).
+    \vspace{-0.32cm}
     \item Excluded Miracle: \( \text{wp}(S, \text{false}) \) equivale a \( \text{false} \).
-    \vspace{-0.5cm}
-    \vspace{-0.5cm}
-\vspace{-0.5cm}
 \end{itemize}
-\vspace{-0.5cm}
-
-\vspace{-0.5cm}
+\vspace{-0.67cm}
 \subsection*{\tiny{Invariante de un ciclo}}
 \noindent\smalltable
+\vspace{-0.2cm}
 \textbf{Definición.} Un predicado \( I \) es un invariante de un ciclo si:
 \begin{enumerate}
     \item \( I \) vale antes de comenzar el ciclo, y
+    \vspace{-0.32cm}
     \item Si vale \( I \land B \) al comenzar una iteración arbitraria, entonces sigue valiendo \( I \) al finalizar la ejecución del cuerpo del ciclo.
 \end{enumerate}
-
+\vspace{-0.22cm}
 Un invariante describe un estado que se satisface cada vez que comienza la ejecución del cuerpo de un ciclo y también se cumple cuando la ejecución del cuerpo del ciclo concluye.
-
+\vspace{-0.2cm}
 \textbf{Teorema del Invariante.} Si existe un predicado \( I \) tal que:
 \begin{enumerate}
     \item \( P_C \Rightarrow I \),
@@ -190,6 +222,10 @@ Para demostrar la correctitud de un programa completo utilizando la lógica de H
     \item \textbf{Conclusión:} Si probamos estas tres cosas, podemos concluir, por corolario de monotonía, que el programa completo es correcto con respecto a la especificación:
     \[ Pre \Rightarrow \text{wp}(Programa\_completo, Post) \]
 \end{enumerate}
+    \vspace{-0.5cm}
+    \vspace{-0.5cm}
+\vspace{-0.6cm}
+
 \subsection*{\tiny{Especificación y Relaciones de Fuerza}}
 
 \noindent\textbf{Especificación:} \\
