@@ -157,6 +157,13 @@ E & \text{si } i = j \\
 b[j] & \text{si } i \neq j 
 \end{cases} 
 \]
+\textbf{Ejemplo.}
+\[ \text{wp}(b[i] := 5, b[j] = 2) \]
+\[ \equiv \text{setAt}(b, i, 5)[j] = 2 \]
+\[ \equiv (i \neq j \land \text{setAt}(b, i, 5)[j] = 2) \lor (i = j \land \text{setAt}(b, i, 5)[j] = 2) \]
+\[ \equiv (i \neq j \land b[j] = 2) \lor (i = j \land \text{setAt}(b, i, 5)[i] = 2) \]
+\[ \equiv (i \neq j \land b[j] = 2) \lor (i = j \land 5 = 2) \]
+\[ \equiv i \neq j \land b[j] = 2 \]
 
 \vspace{-0.4cm}
 \vspace{-0.5cm}
@@ -240,13 +247,30 @@ Decimos que \(A\) es más fuerte que \(B\) cuando \(A \rightarrow B\) es una tau
 
 \noindent\textbf{Ejemplos:}
 \begin{itemize}
+\vspace{-0.3cm}
     \item \(p \land q\) es más fuerte que \(p\).
+    \vspace{-0.3cm}
     \item \(p \lor q\) no es más fuerte que \(p\).
+\vspace{-0.3cm}
     \item \(p\) es más fuerte que \(p \rightarrow q\).
+    \vspace{-0.3cm}
     \item \(p\) no es más fuerte que \(q\).
+    \vspace{-0.3cm}
     \item \textbf{False} es la fórmula más fuerte de todas.
+    \vspace{-0.3cm}
     \item \textbf{True} es la fórmula más débil de todas.
+    \vspace{-0.3cm}
 \end{itemize}
+\subsection*{\tiny {Truco algebraico para sacar términos del último rango}}
+    \vspace{-0.2cm}
+(\forall k:\ent) \, (i \leq k < |s| \implicaLuego p(k)) \equiv p(i) \wedge (\forall k:\ent ) (i < k < |s|) \implicaLuego (p(k))
+
+Por otro lado, para sumatorias, tenemos que:
+\sum_{k=i}^{|s|-1} p(k) = p(i) + \sum_{k=i+1}^{|s|-1} p(k)
+\\ ejemplo:
+\[ \sum_{j=0}^{5} j = \sum_{j=0}^{4} j + 5 \] \\
+Esto nos permite sacar el término correspondiente a \( i \) fuera de la sumatoria.
+
 
 
 
