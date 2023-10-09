@@ -256,7 +256,7 @@ Decimos que \(A\) es más fuerte que \(B\) cuando \(A \rightarrow B\) es una tau
 \end{itemize}
 \subsection*{\tiny {Truco algebraico para sacar términos del último rango}}
     \vspace{-0.2cm}
-(\forall k:\ent) \, (i \leq k < |s| \implicaLuego p(k)) \equiv \land p(i) (\forall k:\ent ) (i < k < |s|) \implicaLuego (p(k))
+(\forall k:\ent) \, (i \leq k < |s| \implicaLuego p(k)) \equiv p(i) \wedge (\forall k:\ent ) (i < k < |s|) \implicaLuego (p(k))
 
 Por otro lado, para sumatorias, tenemos que:
 \sum_{k=i}^{|s|-1} p(k) = p(i) + \sum_{k=i+1}^{|s|-1} p(k)
