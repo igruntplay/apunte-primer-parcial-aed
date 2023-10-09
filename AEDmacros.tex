@@ -1,179 +1,272 @@
-\usepackage[spanish,activeacute,es-tabla]{babel}
+\documentclass[9pt]{extarticle}  % Usa extarticle para poder elegir 9pt.
 \usepackage[utf8]{inputenc}
-\usepackage{ifthen}
-\usepackage{listings}
-\usepackage{dsfont}
-\usepackage{subcaption}
-\usepackage{amsmath}
-\usepackage[strict]{changepage}
-\usepackage[top=1cm,bottom=2cm,left=1cm,right=1cm]{geometry}%
-\usepackage{color}%
-\newcommand{\tocarEspacios}{%
-	\addtolength{\leftskip}{3em}%
-	\setlength{\parindent}{0em}%
-}
+\usepackage[left=0.5in, right=0.5in, top=0.5in, bottom=0.8in]{geometry}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{Apunte para el primer parcial de AED hecho por Gaspi}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{cancel}
+\input{AEDmacros}
 
-% Especificacion de procs
+% Reducir tamaño de fuente para tablas
+\newcommand{\smalltable}{\fontsize{8pt}{10pt}\selectfont}
+\renewcommand{\arraystretch}{0.8}  % Reduce el espacio vertical en las tablas.
 
-\newcommand{\In}{\textsf{in }}
-\newcommand{\Out}{\textsf{out }}
-\newcommand{\Inout}{\textsf{inout }}
 
-\newcommand{\encabezadoDeProc}[4]{%
-	% Ponemos la palabrita problema en tt
-	%  \noindent%
-	{\normalfont\bfseries\ttfamily proc}%
-	% Ponemos el nombre del problema
-	\ %
-	{\normalfont\ttfamily #2}%
-	\
-	% Ponemos los parametros
-	(#3)%
-	\ifthenelse{\equal{#4}{}}{}{%
-		% Por ultimo, va el tipo del resultado
-		\ : #4}
-}
+\begin{document}
 
-\newenvironment{proc}[4][res]{%
-	
-	% El parametro 1 (opcional) es el nombre del resultado
-	% El parametro 2 es el nombre del problema
-	% El parametro 3 son los parametros
-	% El parametro 4 es el tipo del resultado
-	% Preambulo del ambiente problema
-	% Tenemos que definir los comandos requiere, asegura, modifica y aux
-	\newcommand{\requiere}[2][]{%
-		{\normalfont\bfseries\ttfamily requiere}%
-		\ifthenelse{\equal{##1}{}}{}{\ {\normalfont\ttfamily ##1} :}\ %
-		\{\ensuremath{##2}\}%
-		{\normalfont\bfseries\,\par}%
-	}
-	\newcommand{\asegura}[2][]{%
-		{\normalfont\bfseries\ttfamily asegura}%
-		\ifthenelse{\equal{##1}{}}{}{\ {\normalfont\ttfamily ##1} :}\
-		\{\ensuremath{##2}\}%
-		{\normalfont\bfseries\,\par}%
-	}
-	\renewcommand{\aux}[4]{%
-		{\normalfont\bfseries\ttfamily aux\ }%
-		{\normalfont\ttfamily ##1}%
-		\ifthenelse{\equal{##2}{}}{}{\ (##2)}\ : ##3\, = \ensuremath{##4}%
-		{\normalfont\bfseries\,;\par}%
-	}
-	\renewcommand{\pred}[3]{%
-		{\normalfont\bfseries\ttfamily pred }%
-		{\normalfont\ttfamily ##1}%
-		\ifthenelse{\equal{##2}{}}{}{\ (##2) }%
-		\{%
-		\begin{adjustwidth}{+5em}{}
-			\ensuremath{##3}
-		\end{adjustwidth}
-		\}%
-		{\normalfont\bfseries\,\par}%
-	}
-	
-	\newcommand{\res}{#1}
-	\vspace{1ex}
-	\noindent
-	\encabezadoDeProc{#1}{#2}{#3}{#4}
-	% Abrimos la llave
-	\par%
-	\tocarEspacios
-}
-{
-	% Cerramos la llave
-	\vspace{1ex}
-}
+\section*{\tiny{Tipos complejos}}
+    \vspace{-0.2cm}
+\subsection*{\tiny{seq$<T>$: secuencia de tipo T}}
+\vspace{-0.2cm}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \langle \rangle \), \( \langle x, y, z \rangle \) \\
+\hline
+tamaño & \( |s| \), \text{length}(s) \\
+\hline
+pertenece & \( i \in s \) \\
+\hline
+ver posición & \( s[i] \) \\
+\hline
+cabeza & \text{head}(s) \\
+\hline
+cola & \text{tail}(s) \\
+\hline
+concatenar & \text{concat}(s1, s2), \( s1 + s2 \) \\
+\hline
+subsecuencia & \text{subseq}(s, i, j), \( s[i..j] \) \\
+\hline
+setear posición & \text{setAt}(s, i, \text{val}) \\
+\hline
+\end{tabularx}
+\vspace{-0.5cm}
+\subsection*{\tiny{conj$<T>$: conjunto de tipo T}}
+\vspace{-0.2cm}
+\noindent\smalltable
+\vspace{-0.4cm}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \{\} \), \( \{x, y, z\} \) \\
+\hline
+tamaño & \( |c| \), \text{length}(c) \\
+\hline
+pertenece & \( i \in c \) \\
+\hline
+unión & \( c1 \cup c2 \) \\
+\hline
+intersección & \( c1 \cap c2 \) \\
+\hline
+diferencia & \( c1 - c2 \) \\
+\hline
+\end{tabularx}
+\vspace{-0.1cm}
+\subsection*{\tiny{dict$<$K, V$>$: diccionario que asocia claves de tipo K con valores de tipo V}}
+\vspace{-0.2cm}
+\noindent\smalltable
+\vspace{-0.4cm}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \{\} \), \( \{\text{``juan''} : 20, \text{``diego''} : 10\} \) \\
+\hline
+tamaño & \( |d| \), \text{length}(d) \\
+\hline
+pertenece (hay clave) & \( k \in d \) \\
+\hline
+valor & d[k] \\
+\hline
+setear valor & \text{setKey}(d, k, v) \\
+\hline
+eliminar valor & \text{delKey}(d, k) \\
+\hline
+\end{tabularx}
+\vspace{-0.1cm}
+\subsection*{\tiny{tupla$<$T1, ..., Tn$>$: tupla de tipos T1, ..., Tn}}
+\vspace{-0.2cm}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \langle x, y, z \rangle \) \\
+\hline
+campo & \( s[i] \) \\
+\hline
+\end{tabularx}
+\vspace{-0.5cm}
+\subsection*{\tiny{struct$<$campo1: T1, ..., campon: Tn$>$: tupla con nombres para los campos.}}
+\vspace{-0.2cm}
+\noindent\smalltable
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+crear & \( \langle x : 20, y : 10 \rangle \) \\
+\hline
+campo & \( s_x, s_y \) \\
+\hline
+\end{tabularx}
+\vspace{-0.2cm}
+\subsection*{\tiny{Precondición más débil (wp)}}
+\vspace{-0.3cm}
+\noindent\smalltable
+\vspace{-0.2cm}
+La \textit{precondición más débil} es la condición mínima necesaria antes de ejecutar una sentencia para garantizar que una postcondición dada se cumpla.
+\subsection*{\tiny{Lógica de Hoare}}
+\vspace{-0.3cm}
+\noindent\smalltable
+\vspace{-0.1cm}
+Una forma de razonar sobre la corrección de programas es a través de las triples de Hoare \(\{P\} C \{Q\}\). El objetivo es obtener una fórmula lógica \( \alpha \) tal que \( \alpha \) es verdadera si y solo si \(\{P\} C \{Q\}\) es verdadero.
+\vspace{-0.5cm}
+\paragraph*{Predicado def(E):}
+Definición. Dada una expresión \( E \), llamamos \( \text{def}(E) \) a las condiciones necesarias para que \( E \) esté definida.
+\vspace{-0.45cm}
+\paragraph*{Predicado \( Q_{E}^x \):}
+Definición. Dado un predicado \( Q \), el predicado \( Q_{E}^x \) se obtiene reemplazando...
+\vspace{-0.4cm}
+\paragraph*{Axiomas WP}
+\begin{itemize}\vspace{-0.35cm}
+    \item \textbf{Axioma 1.} \( \text{wp}(x := E, Q) \equiv \text{def}(E) \land Q_{E}^x \)\vspace{-0.35cm}
+    \item \textbf{Axioma 2.} \( \text{wp}(\text{skip}, Q) \equiv Q \).
+    \vspace{-0.33cm}
+    \item \textbf{Axioma 3.} \( \text{wp}(S1; S2, Q) \equiv \text{wp}(S1,\text{wp}(S2, Q)) \).\vspace{-0.33cm}
+    \item \textbf{Axioma 4.} Si \(S = \text{if } B \text{ then } S1 \text{ else } S2 \text{ endif}\), entonces
+    \vspace{-0.31cm}
+    \[
+    \vspace{-0.37cm}
+    \text{wp}(S, Q) \equiv \text{def}(B) \yLuego \left( (B \land \text{wp}(S1, Q)) \vee (\neg B \land \text{wp}(S2, Q)) \right)
+    \]
+     \item \textbf{Axioma 5.} \( \text{wp}(\text{while } B \text{ do } S \text{ endwhile}, Q) \equiv (\exists_{i \geq 0})({ H_i}(Q)) \)  no podemos usar mecanicamente el Axioma 5
+para demostrar la corrección de un ciclo con una cantidad no
+acotada a priori de iteraciones
+\vspace{-0.34cm}
+\end{itemize}
+\subsection*{\tiny{Asignación a elementos de una secuencia}}
+\noindent\smalltable
+\vspace{-0.3cm}
+Aplicando el Axioma 1, obtenemos:
+\[ \text{wp}(b[i] := E, Q) \equiv \text{wp}(b := \text{setAt}(b, i, E), Q) \]
+\[ \equiv (\text{def}(b) \land \text{def}(i)) \land 0 \leq i < |b| \land \text{def}(E) \land Q_{\text{setAt}(b,i,E)}^b \]
 
-\newcommand{\aux}[4]{%
-	{\normalfont\bfseries\ttfamily\noindent aux\ }%
-	{\normalfont\ttfamily #1}%
-	\ifthenelse{\equal{#2}{}}{}{\ (#2)}\ : #3\, = \ensuremath{#4}%
-	{\normalfont\bfseries\,;\par}%
-}
+Dado que \( 0 \leq i, j < |b| \), se sabe que:
+\[ \text{setAt}(b, i, E)[j] = 
+\begin{cases} 
+\vspace{-0.2cm}
+E & \text{si } i = j \\
+b[j] & \text{si } i \neq j 
+\end{cases} 
+\]
 
-\newcommand{\pred}[3]{%
-	{\normalfont\bfseries\ttfamily\noindent pred }%
-	{\normalfont\ttfamily #1}%
-	\ifthenelse{\equal{#2}{}}{}{\ (#2) }%
-	\{%
-	\begin{adjustwidth}{+2em}{}
-		\ensuremath{#3}
-	\end{adjustwidth}
-	\}%
-	{\normalfont\bfseries\,\par}%
-}
+\vspace{-0.4cm}
+\vspace{-0.5cm}
+\paragraph*{Propiedades:}
+\begin{itemize}
+\vspace{-0.32cm}
+    \item Monotonía: Si \( Q \) implica \( R \), entonces \( \text{wp}(S, Q) \) implica \( \text{wp}(S, R) \).
+    \vspace{-0.32cm}
+    \item Distributividad: \( \text{wp}(S, Q \land R) \) equivale a \( \text{wp}(S, Q) \land \text{wp}(S, R) \).
+    \vspace{-0.32cm}
+    \item Excluded Miracle: \( \text{wp}(S, \text{false}) \) equivale a \( \text{false} \).
+\end{itemize}
+\vspace{-0.67cm}
+\subsection*{\tiny{Invariante de un ciclo}}
+\noindent\smalltable
+\vspace{-0.2cm}
+\textbf{Definición.} Un predicado \( I \) es un invariante de un ciclo si:
+\begin{enumerate}
+    \item \( I \) vale antes de comenzar el ciclo, y
+    \vspace{-0.32cm}
+    \item Si vale \( I \land B \) al comenzar una iteración arbitraria, entonces sigue valiendo \( I \) al finalizar la ejecución del cuerpo del ciclo.
+\end{enumerate}
+\vspace{-0.22cm}
+Un invariante describe un estado que se satisface cada vez que comienza la ejecución del cuerpo de un ciclo y también se cumple cuando la ejecución del cuerpo del ciclo concluye.
+\vspace{-0.2cm}
+\textbf{Teorema del Invariante.} Si existe un predicado \( I \) tal que:
+\begin{enumerate}
+    \item \( P_C \Rightarrow I \),
+    \item $ \{ I \wedge B \} S \{ I \} \iff (I \wedge B) \implies wp(S, I) $
+    \item \(I \land \neg B \Rightarrow Q_C\),
+\end{enumerate}
+entonces \( \{P_C\} \text{ while } B \text{ do } S \text{ endwhile } \{Q_C\} \) es válida.
+\subsection*{\tiny{Función variante}}
+\noindent\smalltable
+La función variante representa una cantidad que se va
+reduciendo
+\begin{itemize}
+    \item {Si existe una función variante \(f_v\) tal que:
+\begin{enumerate}\item $ \{ I \wedge B \wedge f_v = v_0 \} S \{ f_v < v_0 \} \iff (I \wedge B \wedge f_v = v_0) \implies wp(S, f_v < v_0) $
 
-% Tipos
+    \item Si \(I \land f_v \leq 0\) implica \(\neg B\)
+\end{enumerate}}
+\end{itemize}
+\subsection*{\tiny{Correctitud de un Programa Completo}}
+\noindent\smalltable
+Para demostrar la correctitud de un programa completo utilizando la lógica de Hoare, seguimos estos pasos:
 
-\newcommand{\nat}{\ensuremath{\mathds{N}}}
-\newcommand{\ent}{\ensuremath{\mathds{Z}}}
-\newcommand{\float}{\ensuremath{\mathds{R}}}
-\newcommand{\bool}{\ensuremath{\mathsf{Bool}}}
-\newcommand{\cha}{\ensuremath{\mathsf{Char}}}
-\newcommand{\str}{\ensuremath{\mathsf{String}}}
+\begin{enumerate}
+    \item \textbf{Código antes del ciclo:} Debemos demostrar que las precondiciones implican la precondición más débil del código previo al ciclo, es decir,
+    \[ Pre \Rightarrow \text{wp}(Código\_previo, P_c) \]
+    
+    \item \textbf{Correctitud del ciclo:} Utilizamos el teorema del invariante, ya que no podemos calcular la precondición más débil del ciclo en general. El teorema del invariante se expresa de la siguiente manera:
+    
+    \begin{enumerate}
+        \item \[ P_c \Rightarrow I \]
+        \item \[ (I \land B) \Rightarrow \text{wp}(Ciclo, I) \]
+        \item \[ (I \land \neg B) \Rightarrow Q_c \]
+    \end{enumerate}
 
-% Logica
+    \item \textbf{Código posterior al ciclo:} Comprobamos que las postcondiciones del ciclo implican la precondición más débil del código posterior al ciclo, es decir,
+    \[ Q_c \Rightarrow \text{wp}(Código\_posterior, Post) \]
 
-\newcommand{\True}{\ensuremath{\mathrm{true}}}
-\newcommand{\False}{\ensuremath{\mathrm{false}}}
-\newcommand{\Then}{\ensuremath{\rightarrow}}
-\newcommand{\Iff}{\ensuremath{\leftrightarrow}}
-\newcommand{\implica}{\ensuremath{\longrightarrow}}
-\newcommand{\IfThenElse}[3]{\ensuremath{\mathsf{if}\ #1\ \mathsf{then}\ #2\ \mathsf{else}\ #3\ \mathsf{fi}}}
-\newcommand{\yLuego}{\land _L}
-\newcommand{\oLuego}{\lor _L}
-\newcommand{\implicaLuego}{\implica _L}
+    \item \textbf{Conclusión:} Si probamos estas tres cosas, podemos concluir, por corolario de monotonía, que el programa completo es correcto con respecto a la especificación:
+    \[ Pre \Rightarrow \text{wp}(Programa\_completo, Post) \]
+\end{enumerate}
+\vspace{-0.6cm}
 
-\newcommand{\cuantificador}[5]{%
-	\ensuremath{(#2 #3: #4)\ (%
-		\ifthenelse{\equal{#1}{unalinea}}{
-			#5
-		}{
-			$ % exiting math mode
-			\begin{adjustwidth}{+2em}{}
-				$#5$%
-			\end{adjustwidth}%
-			$ % entering math mode
-		}
-		)}
-}
+\subsection*{\tiny{Especificación y Relaciones de Fuerza}}
 
-\newcommand{\existe}[4][]{%
-	\cuantificador{#1}{\exists}{#2}{#3}{#4}
-}
-\newcommand{\paraTodo}[4][]{%
-	\cuantificador{#1}{\forall}{#2}{#3}{#4}
-}
+\noindent\textbf{Especificación:} \\
+La especificación define qué es lo que debe hacer un algoritmo, en términos de relación entre sus entradas y sus salidas, sin determinar cómo lo hace. Las relaciones de fuerza entre especificaciones son importantes para entender cuán restrictiva o general es una especificación con respecto a otra.
 
-%listas
+\noindent\textbf{Subespecificación:} \\
+Implica otorgar una precondición más restrictiva o una postcondición más débil que lo deducido del enunciado del problema. Una precondición más restrictiva excluye casos de entrada posibles. Una postcondición más débil permite soluciones no deseadas.
 
-\newcommand{\TLista}[1]{\ensuremath{seq \langle #1\rangle}}
-\newcommand{\lvacia}{\ensuremath{[\ ]}}
-\newcommand{\lv}{\ensuremath{[\ ]}}
-\newcommand{\longitud}[1]{\ensuremath{|#1|}}
-\newcommand{\cons}[1]{\ensuremath{\mathsf{addFirst}}(#1)}
-\newcommand{\indice}[1]{\ensuremath{\mathsf{indice}}(#1)}
-\newcommand{\conc}[1]{\ensuremath{\mathsf{concat}}(#1)}
-\newcommand{\cab}[1]{\ensuremath{\mathsf{head}}(#1)}
-\newcommand{\cola}[1]{\ensuremath{\mathsf{tail}}(#1)}
-\newcommand{\sub}[1]{\ensuremath{\mathsf{subseq}}(#1)}
-\newcommand{\en}[1]{\ensuremath{\mathsf{en}}(#1)}
-\newcommand{\cuenta}[2]{\mathsf{cuenta}\ensuremath{(#1, #2)}}
-\newcommand{\suma}[1]{\mathsf{suma}(#1)}
-\newcommand{\twodots}{\ensuremath{\mathrm{..}}}
-\newcommand{\masmas}{\ensuremath{++}}
-\newcommand{\matriz}[1]{\TLista{\TLista{#1}}}
-\newcommand{\seqchar}{\TLista{\cha}}
+\noindent\textbf{Sobreespecificación:} \\
+Consiste en proporcionar una postcondición más restrictiva o una precondición más débil que lo necesario. Una precondición más débil obliga al algoritmo a considerar casos innecesarios. Una postcondición más restrictiva limita las posibles soluciones.
 
-\renewcommand{\lstlistingname}{Código}
-\lstset{% general command to set parameter(s)
-	language=Java,
-	morekeywords={endif, endwhile, skip},
-	basewidth={0.47em,0.40em},
-	columns=fixed, fontadjust, resetmargins, xrightmargin=5pt, xleftmargin=15pt,
-	flexiblecolumns=false, tabsize=4, breaklines, breakatwhitespace=false, extendedchars=true,
-	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=9pt,
-	frame=l, framesep=3pt,
-	captionpos=b,
-}
+\noindent\textbf{Relaciones de Fuerza:} \\
+Decimos que \(A\) es más fuerte que \(B\) cuando \(A \rightarrow B\) es una tautología. También podemos afirmar que \(A\) fuerza a \(B\) o que \(B\) es más débil que \(A\).
+
+\noindent\textbf{Ejemplos:}
+\begin{itemize}
+\vspace{-0.3cm}
+    \item \(p \land q\) es más fuerte que \(p\).
+    \vspace{-0.3cm}
+    \item \(p \lor q\) no es más fuerte que \(p\).
+\vspace{-0.3cm}
+    \item \(p\) es más fuerte que \(p \rightarrow q\).
+    \vspace{-0.3cm}
+    \item \(p\) no es más fuerte que \(q\).
+    \vspace{-0.3cm}
+    \item \textbf{False} es la fórmula más fuerte de todas.
+    \vspace{-0.3cm}
+    \item \textbf{True} es la fórmula más débil de todas.
+    \vspace{-0.3cm}
+\end{itemize}
+\subsection*{\tiny {Truco algebraico para sacar términos del último rango}}
+    \vspace{-0.2cm}
+(\forall k:\ent) \, (i \leq k < |s| \implicaLuego p(k)) \equiv \land p(i) (\forall k:\ent ) (i < k < |s|) \implicaLuego (p(k))
+
+Por otro lado, para sumatorias, tenemos que:
+\sum_{k=i}^{|s|-1} p(k) = p(i) + \sum_{k=i+1}^{|s|-1} p(k)
+\\ ejemplo:
+\[ \sum_{j=0}^{5} j = \sum_{j=0}^{4} j + 5 \] \\
+Esto nos permite sacar el término correspondiente a \( i \) fuera de la sumatoria.
+
+
+
+
+\end{document}
+
+
